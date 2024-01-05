@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import { Types } from 'mongoose';
+
 
 import UserModel from "../models/userSchema.js";
 
@@ -9,7 +11,7 @@ const adminAuthentication = async (req, res, next) => {
         if (authorizationToken) {
 
             const { adminId } = jwt.verify(authorizationToken, process.env.JWT_SECRET_KEY)
-            if (adminId) {
+            if (Types.ObjectId.isValid(adminId)) {
 
                 const admin = await UserModel.findById(adminId).select("-password");
                 if (admin.role === "admin") {
