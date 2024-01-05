@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { Types } from 'mongoose';
 
 import UserModel from "../models/userSchema.js";
 
@@ -9,14 +10,20 @@ const userAuthentication = async (req, res, next) => {
         if (authorizationToken) {
 
             const { userId } = jwt.verify(authorizationToken, process.env.JWT_SECRET_KEY)
+            if (Types.ObjectId.isValid(userId)) {
 
-            const user = await UserModel.findById(userId).select("-password");
-            if (user.role === "user") {
-                req.user = user
-                next();
+                const user = await UserModel.findById(userId).select("-password");
+                if (user.role === "user") {
+                    req.user = user
+                    next();
+                } else {
+                    return res.status(403).json({ "status": false, "message": "Invalid Request" });
+                }
+
             } else {
                 return res.status(403).json({ "status": false, "message": "Invalid Request" });
             }
+
         } else {
             res.status(401).json({ "status": false, "message": "Authorization Failed" });
         }
