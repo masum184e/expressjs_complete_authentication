@@ -88,4 +88,29 @@ const userLogin = async (req, res) => {
     }
 }
 
-export { userRegistration, userLogin }
+const userData = async (req, res) => {
+    res.status(200).send(req.user);
+}
+
+const usersData = async (req, res) => {
+    const users = await UserModel.find({}).select("-password");
+    res.status(200).send(users)
+}
+
+const removeUser = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const removedUser = await UserModel.findByIdAndDelete(userId);
+
+        if (!removedUser) {
+            return res.status(404).send({ "status":false,"message": 'User not found' });
+        }
+
+        res.status(200).send({ "status":true,"message": 'User removed successfully', removedUser });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ "status":false,"message": 'Internal Server Error' });
+    }
+};
+
+export { userRegistration, userLogin, userData, usersData, removeUser }
