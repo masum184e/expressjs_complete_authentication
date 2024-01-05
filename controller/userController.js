@@ -17,10 +17,9 @@ const userRegistration = [
             }
 
             const { firstName, lastName, email, phoneNumber, password } = req.body;
-
             const existingUser = await UserModel.findOne({ $or: [{ email }, { phoneNumber }] });
             if (existingUser) {
-                return res.send({ "message": "User already exists" });
+                return res.status(400).send({ "status": false, "message": "User already exists" });
             }
 
             const hashedPassword = await argon2.hash(password);
@@ -41,10 +40,10 @@ const userRegistration = [
                     httpOnly: true,
                     secure: true,
                     sameSite: 'none'
-                }).send({ "status": true, "message": "Registration Successfull" })
+                }).status(200).send({ "status": true, "message": "Registration Successfull" })
 
             } else {
-                res.send({ "status": false, "message": "Something Went Wrong" });
+                res.status(500).send({ "status": false, "message": "Something Went Wrong" });
             }
 
 
@@ -55,4 +54,38 @@ const userRegistration = [
     }
 ];
 
-export { userRegistration }
+const userLogin = async (req, res) => {
+    try {
+        const { identifier, password } = req.body;
+        if (identifier && password) {
+
+            const existingUser = await UserModel.findOne({ $or: [{ email: identifier }, { phoneNumber: identifier }] });
+            if (!existingUser || existingUser.role !== "user") {
+                return res.status(401).send({ "status": false, "message": "Invalid Identifier" });
+            }
+
+            const isMatch = await argon2.verify(existingUser.password, password);
+            if (isMatch) {
+
+                const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.TOKEN_EXPIRES });
+                res.cookie(process.env.EXPRESSJS_COMPLETE_AUTHENTICATION_TOKEN_COOKIE_KEY, token, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'none'
+                }).status(200).send({ "status": true, "message": "Login Successfull" })
+
+            } else {
+                res.status(401).send({ "status": false, "message": "Wrong Password" });
+            }
+
+        } else {
+            res.status(400).send({ "status": false, "message": "All fields are required" })
+        }
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({ "status": false, "message": error.message })
+    }
+}
+
+export { userRegistration, userLogin }
