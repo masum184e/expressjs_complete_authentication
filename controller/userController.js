@@ -118,13 +118,18 @@ const usersData = async (req, res) => {
 const removeUser = async (req, res) => {
     try {
         const { userId } = req.params;
-        const removedUser = await UserModel.findByIdAndDelete(userId);
+        if (Types.ObjectId.isValid(userId)) {
 
-        if (!removedUser) {
-            return res.status(404).send({ "status": false, "message": 'User not found' });
+            const removedUser = await UserModel.findByIdAndDelete(userId);
+            if (!removedUser) {
+                return res.status(404).send({ "status": false, "message": 'User not found' });
+            }
+
+            res.status(200).send({ "status": true, "message": 'User removed successfully', removedUser });
+
+        } else {
+            res.status(403).json({ "status": false, "message": "Invalid Request" });
         }
-
-        res.status(200).send({ "status": true, "message": 'User removed successfully', removedUser });
     } catch (error) {
         console.error(error);
         res.status(500).send({ "status": false, "message": 'Internal Server Error' });
