@@ -1,6 +1,8 @@
 import argon2 from 'argon2';
 import { check, validationResult } from 'express-validator';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import { Types } from 'mongoose';
+
 import UserModel from "../models/userSchema.js";
 
 const userRegistration = [
@@ -92,6 +94,22 @@ const userData = async (req, res) => {
     res.status(200).send(req.user);
 }
 
+const userDataById = async (req, res) => {
+    const { userId } = req.params;
+    if (Types.ObjectId.isValid(userId)) {
+
+        const user = await UserModel.findById(userId).select("-password");
+        if (user) {
+            res.status(200).send(user);
+        } else {
+            res.status(404).send({ "status": false, "message": 'User not found' });
+        }
+
+    } else {
+        res.status(403).json({ "status": false, "message": "Invalid Request" });
+    }
+}
+
 const usersData = async (req, res) => {
     const users = await UserModel.find({}).select("-password");
     res.status(200).send(users)
@@ -103,14 +121,14 @@ const removeUser = async (req, res) => {
         const removedUser = await UserModel.findByIdAndDelete(userId);
 
         if (!removedUser) {
-            return res.status(404).send({ "status":false,"message": 'User not found' });
+            return res.status(404).send({ "status": false, "message": 'User not found' });
         }
 
-        res.status(200).send({ "status":true,"message": 'User removed successfully', removedUser });
+        res.status(200).send({ "status": true, "message": 'User removed successfully', removedUser });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "status":false,"message": 'Internal Server Error' });
+        res.status(500).send({ "status": false, "message": 'Internal Server Error' });
     }
 };
 
-export { userRegistration, userLogin, userData, usersData, removeUser }
+export { userRegistration, userLogin, userData, userDataById, usersData, removeUser }
