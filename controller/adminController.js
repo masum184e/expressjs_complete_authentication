@@ -15,7 +15,7 @@ const adminLogin = async (req, res) => {
             const isMatch = await argon2.verify(existingUser.password, password);
             if (isMatch) {
 
-                const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.TOKEN_EXPIRES });
+                const token = jwt.sign({ adminId: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.TOKEN_EXPIRES });
                 res.cookie(process.env.EXPRESSJS_COMPLETE_AUTHENTICATION_TOKEN_COOKIE_KEY, token, {
                     httpOnly: true,
                     secure: true,
@@ -36,4 +36,8 @@ const adminLogin = async (req, res) => {
     }
 }
 
-export { adminLogin };
+const adminData = async (req, res) => {
+    res.send(req.admin);
+}
+
+export { adminLogin, adminData };
