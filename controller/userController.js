@@ -136,4 +136,30 @@ const removeUser = async (req, res) => {
     }
 };
 
-export { userRegistration, userLogin, userData, userDataById, usersData, removeUser }
+const uploadProfilePicture = async (req, res) => {
+    try {
+        const { _id: userId } = req.user
+        const profilePicture = req.files["profilePicture"][0].filename;
+
+        if (userId && profilePicture) {
+
+            const user = await UserModel.findById(userId);
+            if (!user) {
+                return res.status(404).send({ "status": false, "message": "User not found" });
+            }
+    
+            user.profilePicture = profilePicture;
+            const updatedUser = await user.save();
+            res.status(200).send({ "status": true, "message": "Profile picture updated successfully", updatedUser });
+
+        } else {
+            res.status(400).send({ "status": false, "message": "All fields are required" })
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ "status": false, "message": 'Internal Server Error' });
+    }
+}
+
+export { userRegistration, userLogin, userData, userDataById, usersData, removeUser, uploadProfilePicture }

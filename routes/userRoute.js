@@ -1,14 +1,11 @@
 import express from 'express';
-import { removeUser, userData, userDataById, userLogin, userRegistration, usersData } from '../controller/userController.js';
+import { uploadProfilePicture, userData, userLogin, userRegistration } from '../controller/userController.js';
 import userAuthentication from '../middleware/userAuthentication.js';
-import adminAuthentication from '../middleware/adminAuthentication.js';
+import uploadFile from '../middleware/uploadFile.js';
 
 const userRouter = express.Router();
 userRouter.post("/registration", userRegistration);
 userRouter.post("/login", userLogin);
 userRouter.get("/", userAuthentication, userData);
-userRouter.get("/all", adminAuthentication, usersData);
-userRouter.get("/:userId", adminAuthentication, userDataById);
-userRouter.delete("/:userId", adminAuthentication, removeUser);
-
+userRouter.post("/upload-profile-picture", userAuthentication, uploadFile.fields([{ name: "profilePicture", maxCount: 1 }]), uploadProfilePicture)
 export default userRouter
