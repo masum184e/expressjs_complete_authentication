@@ -5,6 +5,9 @@ import { Types } from 'mongoose';
 
 import UserModel from "../models/userSchema.js";
 
+import { initClient } from 'messagebird';
+const sendMessage = initClient(process.env.MESSAGEBIRD_API_KEY);
+
 const userRegistration = [
     check('firstName').isAlpha().withMessage('Only alphabets are allowed'),
     check('lastName').isAlpha().withMessage('Only alphabets are allowed'),
@@ -147,7 +150,7 @@ const uploadProfilePicture = async (req, res) => {
             if (!user) {
                 return res.status(404).send({ "status": false, "message": "User not found" });
             }
-    
+
             user.profilePicture = profilePicture;
             const updatedUser = await user.save();
             res.status(200).send({ "status": true, "message": "Profile picture updated successfully", updatedUser });
@@ -162,4 +165,89 @@ const uploadProfilePicture = async (req, res) => {
     }
 }
 
-export { userRegistration, userLogin, userData, userDataById, usersData, removeUser, uploadProfilePicture }
+const sendOtop = async (req, res) => {
+    try {
+        const { phoneNumber } = req.body;
+        if (phoneNumber) {
+
+            const existingUser = await UserModel.findOne({ phoneNumber });
+            if (existingUser) {
+
+                const bdMobileNumber = "+88" + phoneNumber;
+                const smsMessageTemplate = {
+                    template: `Your ECA Reset Password OTP is %token, It will be valid for next 3:00 minutes`,
+                    timeout: 3000
+                }
+
+                const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.TOKEN_EXPIRES });
+                sendMessage.verify.create(bdMobileNumber, smsMessageTemplate,
+                    (error, response) => {
+                        if (error) {
+                            res.status(500).send({ "status": false, "message": error.message })
+                        } else {
+                            res.status(200).send({ "status": true, "message": "Otp Send Successfully Successfull", verificationId: response.id, token })
+                        }
+                    }
+                );
+
+            } else {
+                res.status(401).send({ "status": false, "message": "Invalid Mobile Number" });
+            }
+
+        } else {
+            res.status(400).send({ "status": false, "message": "All fields are required" })
+        }
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({ "status": false, "message": error.message })
+    }
+
+}
+
+const verifyOtpWithNewPassword = async (req, res) => {
+    try {
+
+        const { verificationId, token } = req.params;
+        const { otp, newPassword, confirmPassword } = req.body;
+        if (verificationId && otp && newPassword && confirmPassword && token) {
+            if (newPassword === confirmPassword) {
+                const { userId } = jwt.verify(token, process.env.JWT_SECRET_KEY)
+                if (userId) {
+                    sendMessage.verify.verify(verificationId, otp,
+                        async (error, response) => {
+                            if (error) {
+                                res.status(500).send({ "status": false, "message": error.message })
+                            } else {
+                                if (response) {
+
+                                    const user = await UserModel.findById(userId).select("-password");
+                                    const hashedPassword = await argon2.hash(newPassword);
+                                    user.password = hashedPassword;
+                                    const updatedUser = await user.save();
+                                    res.status(200).send({ "status": true, "message": "Password Updated Successfully", updatedUser });
+
+                                } else {
+                                    res.status(400).send({ "status": false, "message": "Something Went Wrong" })
+                                }
+                            }
+                        }
+                    );
+
+                } else {
+                    res.status(403).json({ "status": false, "message": "Invalid Request" });
+                }
+            } else {
+                res.status(400).send({ "status": false, "message": "Password Missmatch" })
+            }
+
+        } else {
+            res.status(400).send({ "status": false, "message": "All fields are required" })
+        }
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({ "status": false, "message": error.message })
+    }
+}
+
+export { userRegistration, userLogin, userData, userDataById, usersData, removeUser, uploadProfilePicture, sendOtop, verifyOtpWithNewPassword }
