@@ -17,6 +17,9 @@ app.use(cors());
 databaseConnection(DATABASE_URL, DATABASE_NAME);
 app.use(express.json());
 app.use(cookieParser());
+app.get("/", (req, res) => {
+    res.send("Server is running perfectly");
+})
 app.use("/api", router);
 
 app.listen(PORT, () => { console.log(`Server Listening at http://localhost:${PORT}`) });
