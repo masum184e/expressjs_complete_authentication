@@ -47,3 +47,19 @@ npx nodemon index.js
 ├─ README.md                  - serve a details documentation
 └─ vercel.json                - configuration for vercel
 ```
+
+## Environment Variables
+
+| Configuration Key         | Value                                                                                      |
+| ------------------------- |--------------------------------------------------------------------------------------------|
+| PORT                      | specifies the port on which the server will listen for incoming connections                |
+| DATABASE_NAME             | specifies the name of the database                                                         |
+| DATABASE_URL              | specifies the URL or connection string for the MongoDB database                            |
+| BCRYPT_GEN_SALT_NUMBER    | specifies the number of rounds to use for generating a BCrypt salt                         |
+| JWT_SECRET_KEY            | specifies the secret key used for signing and verifying JWTs                               |
+| TOKEN_EXPIRES             | specifies the expiration time for JWT tokens                                               |
+| PROFILE_PICTURE_PATH      | specifies the file path where profile pictures are saved                                   |
+| PROFILE_PICTURE_MAX_SIZE  | specifies the maximum allowed size for profile pictures                                    |
+| COOKIE_KEY                | specifies the cookie key for storing authentication jwt token                              |
+| PROFILE_PIC_DIRECTORY     | specifies the file path where profile pictures are saved                                   |
+| MESSAGEBIRD_API_KEY       | specifies the API key of messagebird for otp sending sms                                   |
