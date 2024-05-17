@@ -16,7 +16,7 @@ const adminLogin = async (req, res) => {
             if (isMatch) {
 
                 const token = jwt.sign({ adminId: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.TOKEN_EXPIRES });
-                res.cookie(process.env.EXPRESSJS_COMPLETE_AUTHENTICATION_TOKEN_COOKIE_KEY, token, {
+                res.cookie(process.env.COOKIE_KEY, token, {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'none'

@@ -41,7 +41,7 @@ const userRegistration = [
             if (savedUser) {
 
                 const token = jwt.sign({ userId: savedUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.TOKEN_EXPIRES });
-                res.cookie(process.env.EXPRESSJS_COMPLETE_AUTHENTICATION_TOKEN_COOKIE_KEY, token, {
+                res.cookie(process.env.COOKIE_KEY, token, {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'none'
@@ -73,7 +73,7 @@ const userLogin = async (req, res) => {
             if (isMatch) {
 
                 const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.TOKEN_EXPIRES });
-                res.cookie(process.env.EXPRESSJS_COMPLETE_AUTHENTICATION_TOKEN_COOKIE_KEY, token, {
+                res.cookie(process.env.COOKIE_KEY, token, {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'none'
