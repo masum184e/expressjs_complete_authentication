@@ -17,31 +17,31 @@ npx nodemon index.js
 
 ```bash
 ├─ config
-│  └─ databaseConnection.js
+│  └─ databaseConnection.js   - build connection with mongodb database 
 │
 ├─ cotroller
-│  ├─ adminController.js
-│  └─ userController.js
+│  ├─ adminController.js      - define admin abilities
+│  └─ userController.js       - define user abilities
 │
 ├─ middleware
-│  ├─ adminAuthentication.js
-│  ├─ uploadFile.js
-│  └─ userAuthentication.js
+│  ├─ adminAuthentication.js  - authenticate admin
+│  ├─ uploadFile.js           - handle file uploading
+│  └─ userAuthentication.js   - authenticate user
 │
 ├─ models
-│  └─ userSchema.js
+│  └─ userSchema.js           - define user's schema
 │
 ├─ public
-│  └─ profilePicture
+│  └─ profilePicture          - store uploaded profile pictures
 │
 ├─ routes
-│  ├─ adminRoute.js
-│  ├─ route.js
-│  └─ userRoute.js
+│  ├─ adminRoute.js           - handle admin route
+│  ├─ route.js                - combine all route
+│  └─ userRoute.js            - handle user routes
 │
 ├─ .env                       - store all environment variable
 ├─ .gitignore                 - store details about ingnored file by git
-├─ index.js                   
+├─ index.js                   - server setup
 ├─ package-lock.json          - configuration for server
 ├─ package.json               - configuration for server
 ├─ README.md                  - serve a details documentation
