@@ -63,3 +63,18 @@ npx nodemon index.js
 | COOKIE_KEY                | specifies the cookie key for storing authentication jwt token                              |
 | PROFILE_PIC_DIRECTORY     | specifies the file path where profile pictures are saved                                   |
 | MESSAGEBIRD_API_KEY       | specifies the API key of messagebird for otp sending sms                                   |
+
+## Dependencies
+
+| Package Name          |  Description                                                                 |
+| ----------------------|------------------------------------------------------------------------------|
+| express               | provides a robust set of features for web and mobile applications            |
+| mongoose              | MongoDB object modeling tool                                                 |
+| jsonwebtoken          | securely authenticate users and share information                            |
+| cors                  | secure cross-origin requests and data transfers between browsers and servers |
+| argon2                | hash and manage password                                                     |
+| dotenv                | load environment variables                                                   |
+| cookie-parser         | handle cookie during http request                                            |
+| express-validator     | validate input data                                                          |
+| messagebird           | handle sms communication                                                     |
+| multer                | handle multipart/form-data                                                   |
