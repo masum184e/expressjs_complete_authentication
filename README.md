@@ -1,6 +1,6 @@
 # Expressjs Complete Authentication
 
-A scalable web server application built with Node.js and Express.js, featuring comprehensive user and admin management, secure authentication, and efficient file upload handling. Integrates seamlessly with MongoDB. Ideal for projects requiring robust backend services.
+<p align="justify">A scalable web server application built with Node.js and Express.js, featuring comprehensive user and admin management, secure authentication, and efficient file upload handling. Integrates seamlessly with MongoDB. Ideal for projects requiring robust backend services.</p>
 
 [Live Preview](https://expressjs-complete-authentication.vercel.app/) | [Postman Documentation](https://documenter.getpostman.com/view/27027258/2sA3JRZeuT)
 
