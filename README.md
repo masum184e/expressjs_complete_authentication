@@ -88,6 +88,17 @@ When a user forgets his password, he can reset it by providing his mobile number
 - `{{baseUrl}}/api/users/reset-password-otp`                    - `GET`  - provide interface for sending otp to register user
 - `{{baseUrl}}/api/users/reset-password/:token/:verificationId` - `PUT`  - provide interface to reset password by valid otp
 
+## CRUD
+__Create (C):__
+- __User Registration:__ The API allows users to create an account by providing their first name, last name, email, phone number, and password. When users register, a new user record in the database.
+__Read (R):
+- __User Profile Management:__ Authorized admin can view all the register users information as well as his own information.
+__Update (U):__
+- __Profile Picture Uploading:__ Authrorized user can update their profile profile picture. When authorized users update their profiles, the API modifies their existing user records in the database to reflect the changes.
+- __User Reset Password:__ When user forgot his password, a otp is sent to users mobile number. By providing the otp with correct verification code, he will be able to update his password.
+__Delete (D):__
+- __Remove User:__ Authrized admin have the ability to remove specific user account from database.
+
 ## Dependencies
 
 | Package Name          |  Description                                                                 |
