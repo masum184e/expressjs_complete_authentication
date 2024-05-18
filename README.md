@@ -58,7 +58,12 @@ npx nodemon index.js
 - `{{baseUrl}}/api/admins/users/all`     - `GET`    - provide user list only for authrized admin
 - `{{baseUrl}}/api/admins/users/:userId` - `GET`    - provide specific user details only for authrized admin
 - `{{baseUrl}}/api/admins/users/:userId` - `DELETE` - remove specific user details only for authrized admin
-- `{{baseUrl}}/api/users` - 
+- `{{baseUrl}}/api/users/registration`                          - `POST` - provide interface to perform user registration
+- `{{baseUrl}}/api/users/login`                                 - `POST` - provide interface to perform user login
+- `{{baseUrl}}/api/users`                                       - `GET`  - provide authrorized user details
+- `{{baseUrl}}/api/users/upload-profile-picture`                - `POST` - provide interface upload profile picture only for authorized user
+- `{{baseUrl}}/api/users/reset-password-otp`                    - `GET`  - provide interface for sending otp to register user
+- `{{baseUrl}}/api/users/reset-password/:token/:verificationId` - `PUT`  - provide interface to reset password by valid otp
 
 ## Environment Variables
 
