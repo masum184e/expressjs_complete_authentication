@@ -52,6 +52,42 @@ npx nodemon index.js
 └─ vercel.json                - configuration for vercel
 ```
 
+
+## Features
+
+|          Feature Name          |      Accessibility        |
+| ------------------------------ | ------------------------- |
+| User Registration              | Public                    |
+| User Login                     | Public                    |
+| User Reset Password            | Public                    |
+| Single User Data By User Id    | Authorized Admin and User |
+| Upload Profile Picture         | Authorize User            |
+| Admin Login                    | Public                    |
+| Single Admin Data By Admin Id  | Authorized Admin          |
+| All User Data                  | Authorized Admin          |
+| Remove User                    | Authorized Admin          |
+
+## Features Details
+
+**User Registration:** User can register with his first name, last name, email, phone number and password. Hashed password will store in the database, others field remain same. API can validate each field. User can use one email and one mobile number only once, duplicate account is not allowed.
+
+**User Login:** Register user can login with mobile number or email and password. API will compare the password with the stored hashed password.
+
+**User Reset Password:** User can reset password by giving registered mobile number. A __OTP__ will sent to his mobile number and api also respone a verification token which will use in the url of the UI. After visiting this url, API check the verification token and otp, if this are valid, user can reset password and API stored again hashed version of new password.
+
+**Upload Profile Picture:** Authorize user can upload profile picture. Uploaded picture file name will store in the database and file will stored in *public/profilePicture* folder in API structure.
+
+**User Details:** Authorized admin can see details of any user by user's userId and authorized user can see only details of itself by his userId
+
+**Admin Login:** Admin can login with email and password. Admin account should be created from database.
+
+**Admin Details:** Authorized admin can see details of itself by his adminId. One admin can't see other admin details.
+
+**User List:** Authorized admin can see a list of all register user.
+
+**Remove User:** Authorized amdin can remove a user by his userId                                       |
+
+
 ## Environment Variables
 
 | Configuration Key         | Value                                                                                      |
@@ -91,11 +127,14 @@ When a user forgets his password, he can reset it by providing his mobile number
 ## CRUD
 __Create (C):__
 - __User Registration:__ The API allows users to create an account by providing their first name, last name, email, phone number, and password. When users register, a new user record in the database.
-__Read (R):
+
+__Read (R):__
 - __User Profile Management:__ Authorized admin can view all the register users information as well as his own information.
+
 __Update (U):__
 - __Profile Picture Uploading:__ Authrorized user can update their profile profile picture. When authorized users update their profiles, the API modifies their existing user records in the database to reflect the changes.
 - __User Reset Password:__ When user forgot his password, a otp is sent to users mobile number. By providing the otp with correct verification code, he will be able to update his password.
+
 __Delete (D):__
 - __Remove User:__ Authrized admin have the ability to remove specific user account from database.
 
