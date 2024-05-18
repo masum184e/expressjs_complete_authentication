@@ -9,5 +9,5 @@ userRouter.post("/login", userLogin);
 userRouter.get("/", userAuthentication, userData);
 userRouter.post("/upload-profile-picture", userAuthentication, uploadFile.fields([{ name: "profilePicture", maxCount: 1 }]), uploadProfilePicture)
 userRouter.get("/reset-password-otp", sendOtop);
-userRouter.post("/reset-password/:token/:verificationId", verifyOtpWithNewPassword);
+userRouter.put("/reset-password/:token/:verificationId", verifyOtpWithNewPassword);
 export default userRouter
