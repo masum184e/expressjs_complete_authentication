@@ -52,6 +52,14 @@ npx nodemon index.js
 └─ vercel.json                - configuration for vercel
 ```
 
+## Routes
+- `{{baseUrl}}/api/admins/login`         - `POST`   - provide interface to perform admin login functionalities
+- `{{baseUrl}}/api/admins/`              - `GET`    - provide authrorized admin details
+- `{{baseUrl}}/api/admins/users/all`     - `GET`    - provide user list only for authrized admin
+- `{{baseUrl}}/api/admins/users/:userId` - `GET`    - provide specific user details only for authrized admin
+- `{{baseUrl}}/api/admins/users/:userId` - `DELETE` - remove specific user details only for authrized admin
+- `{{baseUrl}}/api/users` - 
+
 ## Environment Variables
 
 | Configuration Key         | Value                                                                                      |
