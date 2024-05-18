@@ -52,19 +52,6 @@ npx nodemon index.js
 └─ vercel.json                - configuration for vercel
 ```
 
-## Routes
-- `{{baseUrl}}/api/admins/login`         - `POST`   - provide interface to perform admin login functionalities
-- `{{baseUrl}}/api/admins/`              - `GET`    - provide authrorized admin details
-- `{{baseUrl}}/api/admins/users/all`     - `GET`    - provide user list only for authrized admin
-- `{{baseUrl}}/api/admins/users/:userId` - `GET`    - provide specific user details only for authrized admin
-- `{{baseUrl}}/api/admins/users/:userId` - `DELETE` - remove specific user details only for authrized admin
-- `{{baseUrl}}/api/users/registration`                          - `POST` - provide interface to perform user registration
-- `{{baseUrl}}/api/users/login`                                 - `POST` - provide interface to perform user login
-- `{{baseUrl}}/api/users`                                       - `GET`  - provide authrorized user details
-- `{{baseUrl}}/api/users/upload-profile-picture`                - `POST` - provide interface upload profile picture only for authorized user
-- `{{baseUrl}}/api/users/reset-password-otp`                    - `GET`  - provide interface for sending otp to register user
-- `{{baseUrl}}/api/users/reset-password/:token/:verificationId` - `PUT`  - provide interface to reset password by valid otp
-
 ## Environment Variables
 
 | Configuration Key         | Value                                                                                      |
@@ -80,6 +67,26 @@ npx nodemon index.js
 | COOKIE_KEY                | specifies the cookie key for storing authentication jwt token                              |
 | PROFILE_PIC_DIRECTORY     | specifies the file path where profile pictures are saved                                   |
 | MESSAGEBIRD_API_KEY       | specifies the API key of messagebird for otp sending sms                                   |
+
+## SMS
+When a user forgets his password, he can reset it by providing his mobile number. An otp will be sent to his mobile number and api will response a verification token which will use in the url of the UI to reset the password. The API uses the `messagebird` package to send an HTML template as an email.
+
+## Security
+- __bcrypt__: password is hashed using `bcrypt`
+
+## Routes
+
+- `{{baseUrl}}/api/admins/login`         - `POST`   - provide interface to perform admin login functionalities
+- `{{baseUrl}}/api/admins/`              - `GET`    - provide authrorized admin details
+- `{{baseUrl}}/api/admins/users/all`     - `GET`    - provide user list only for authrized admin
+- `{{baseUrl}}/api/admins/users/:userId` - `GET`    - provide specific user details only for authrized admin
+- `{{baseUrl}}/api/admins/users/:userId` - `DELETE` - remove specific user details only for authrized admin
+- `{{baseUrl}}/api/users/registration`                          - `POST` - provide interface to perform user registration
+- `{{baseUrl}}/api/users/login`                                 - `POST` - provide interface to perform user login
+- `{{baseUrl}}/api/users`                                       - `GET`  - provide authrorized user details
+- `{{baseUrl}}/api/users/upload-profile-picture`                - `POST` - provide interface upload profile picture only for authorized user
+- `{{baseUrl}}/api/users/reset-password-otp`                    - `GET`  - provide interface for sending otp to register user
+- `{{baseUrl}}/api/users/reset-password/:token/:verificationId` - `PUT`  - provide interface to reset password by valid otp
 
 ## Dependencies
 
