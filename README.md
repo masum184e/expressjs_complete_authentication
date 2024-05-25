@@ -73,11 +73,11 @@ npx nodemon index.js
 
 **User Login:** Register user can login with mobile number or email and password. API will compare the password with the stored hashed password.
 
-**User Reset Password:** User can reset password by giving registered mobile number. A __OTP__ will sent to his mobile number and api also respone a verification token which will use in the url of the UI. After visiting this url, API check the verification token and otp, if this are valid, user can reset password and API stored again hashed version of new password.
+**User Reset Password:** User can reset password by giving registered mobile number. An __OTP__ will be sent to his mobile number and api also respone a verification token which will be used in the url of the UI. After visiting this url, API check the verification token and otp, if this are valid, user can reset password and API stored the hashed version of new password again.
 
-**Upload Profile Picture:** Authorize user can upload profile picture. Uploaded picture file name will store in the database and file will stored in *public/profilePicture* folder in API structure.
+**Upload Profile Picture:** Authorize user can upload profile picture. Uploaded picture file name will store in the database and file will be stored in the *public/profilePicture* directory in the API structure.
 
-**User Details:** Authorized admin can see details of any user by user's userId and authorized user can see only details of itself by his userId
+**User Details:** Authorized admin can see details of any user by user's userId and authorized user can see only details of itself by his userId.
 
 **Admin Login:** Admin can login with email and password. Admin account should be created from database.
 
@@ -85,11 +85,9 @@ npx nodemon index.js
 
 **User List:** Authorized admin can see a list of all register user.
 
-**Remove User:** Authorized amdin can remove a user by his userId                                       |
-
+**Remove User:** Authorized amdin can remove a user by his userId.
 
 ## Environment Variables
-
 | Configuration Key         | Value                                                                                      |
 | ------------------------- |--------------------------------------------------------------------------------------------|
 | PORT                      | specifies the port on which the server will listen for incoming connections                |
@@ -105,7 +103,7 @@ npx nodemon index.js
 | MESSAGEBIRD_API_KEY       | specifies the API key of messagebird for otp sending sms                                   |
 
 ## SMS
-When a user forgets his password, he can reset it by providing his mobile number. An otp will be sent to his mobile number and api will response a verification token which will use in the url of the UI to reset the password. The API uses the `messagebird` package to send an HTML template as an email.
+When a user forgets his password, he can reset it by providing his mobile number. An otp will be sent to his mobile number and api will response a verification token also which will use in the url of the UI to reset the password. The API uses the `messagebird` package to send OTP.
 
 ## Security
 - __bcrypt__: password is hashed using `bcrypt`
@@ -114,29 +112,29 @@ When a user forgets his password, he can reset it by providing his mobile number
 
 - `{{baseUrl}}/api/admins/login`         - `POST`   - provide interface to perform admin login functionalities
 - `{{baseUrl}}/api/admins/`              - `GET`    - provide authrorized admin details
-- `{{baseUrl}}/api/admins/users/all`     - `GET`    - provide user list only for authrized admin
-- `{{baseUrl}}/api/admins/users/:userId` - `GET`    - provide specific user details only for authrized admin
-- `{{baseUrl}}/api/admins/users/:userId` - `DELETE` - remove specific user details only for authrized admin
+- `{{baseUrl}}/api/admins/users/all`     - `GET`    - provide user list only to authorized admin
+- `{{baseUrl}}/api/admins/users/:userId` - `GET`    - provide specific user details only to authorized admin
+- `{{baseUrl}}/api/admins/users/:userId` - `DELETE` - remove specific user details only to authorized admin
 - `{{baseUrl}}/api/users/registration`                          - `POST` - provide interface to perform user registration
 - `{{baseUrl}}/api/users/login`                                 - `POST` - provide interface to perform user login
 - `{{baseUrl}}/api/users`                                       - `GET`  - provide authrorized user details
-- `{{baseUrl}}/api/users/upload-profile-picture`                - `POST` - provide interface upload profile picture only for authorized user
+- `{{baseUrl}}/api/users/upload-profile-picture`                - `POST` - provide interface to upload profile picture only to authorized user
 - `{{baseUrl}}/api/users/reset-password-otp`                    - `GET`  - provide interface for sending otp to register user
 - `{{baseUrl}}/api/users/reset-password/:token/:verificationId` - `PUT`  - provide interface to reset password by valid otp
 
 ## CRUD
 __Create (C):__
-- __User Registration:__ The API allows users to create an account by providing their first name, last name, email, phone number, and password. When users register, a new user record in the database.
+- __User Registration:__ The API allows users to create an account by providing their first name, last name, email, phone number, and password. When users register, a new user record created in the database.
 
 __Read (R):__
-- __User Profile Management:__ Authorized admin can view all the register users information as well as his own information.
+- __Profile Management:__ Authorized admin can view all the register users information as well as his own information.
 
 __Update (U):__
-- __Profile Picture Uploading:__ Authrorized user can update their profile profile picture. When authorized users update their profiles, the API modifies their existing user records in the database to reflect the changes.
-- __User Reset Password:__ When user forgot his password, a otp is sent to users mobile number. By providing the otp with correct verification code, he will be able to update his password.
+- __Profile Picture Uploading:__ Authrorized user can update their profile picture. When authorized users update their profiles, the API modifies their existing user records in the database to reflect the changes.
+- __User Reset Password:__ When user forgot his password, an otp has been sent to users mobile number. By providing the otp with correct verification token, user will be able to update his password.
 
 __Delete (D):__
-- __Remove User:__ Authrized admin have the ability to remove specific user account from database.
+- __Remove User:__ Authorized admin have the ability to remove specific user account from database.
 
 ## Dependencies
 
